@@ -54,6 +54,14 @@ class Image:
 	@property
 	def size(self):
 		return self.get_size()
+	
+	@property
+	def device_timestamp_usec(self):
+		return self.get_device_timestamp_usec()
+
+	@property
+	def system_timestamp_nsec(self):
+		return self.get_system_timestamp_nsec()
 
 
 	def get_buffer(self):
@@ -87,7 +95,22 @@ class Image:
 		return int(_k4a.k4a_image_get_height_pixels(self._handle))
 
 	def get_stride_bytes(self):
+		if not self.is_valid():
+			return None
+		
 		return int(_k4a.k4a_image_get_stride_bytes(self._handle))
+	
+	def get_device_timestamp_usec(self):
+		if not self.is_valid():
+			return None
+		
+		return int(_k4a.k4a_image_get_device_timestamp_usec(self._handle))
+	
+	def get_system_timestamp_nsec(self):
+		if not self.is_valid():
+			return None
+		
+		return int(_k4a.k4a_image_get_system_timestamp_nsec(self._handle))
 
 	def to_numpy(self):
 
